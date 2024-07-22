@@ -5,6 +5,7 @@ import Item from "@/app/component/item";
 
 import { gql, GraphQLClient } from "graphql-request";
 import { useQuery } from "react-query";
+import { Fragment } from "react";
 
 const allFlights = gql`
   query getFlights($currentPage: Int, $pageSize: Int) {
@@ -78,12 +79,13 @@ const client = new GraphQLClient('https://api-erp.monamedia.net/graphql');
 
 export default function ListPage() {
 
-  const { data, error, isLoading } = useQuery({
+  const { data: dataFlight, error, isLoading } = useQuery({
     queryKey: ['flights'],
     queryFn: async () => client.request(allFlights, { currentPage: 1, pageSize: 10 }),
   });
-  console.log("data: ",data);
+  console.log("data: ",dataFlight);
   
+
 
   return (
     <div className="plist">
@@ -145,7 +147,11 @@ export default function ListPage() {
                 </div>
                 <div className="plist-list-main">
                   <div className="plist-list">
-                    <Item />
+                    {dataFlight?.Flights?.items?.map((item, index) => (
+                      <Fragment key={index}>
+                        <Item fly={item} index={index} data={dataFlight?.Flights}/>
+                      </Fragment>
+                    ))}
                   </div>
                 </div>
               </div>

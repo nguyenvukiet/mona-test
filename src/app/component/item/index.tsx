@@ -1,8 +1,41 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import { useState } from "react";
 
-export default function Item() {
+export default function Item({fly , index, data} : any) {
   const [activeTab, setActiveTab] = useState(0);
+
+  const timeStart = fly?.RelatedFlights?.[0]?.StartTime;
+  const timeEnd = fly?.RelatedFlights?.[0]?.EndTime;
+
+  const duration = fly?.RelatedFlights?.[0]?.Duration; //120
+  function formatDuration(minutes : any) {
+    // Calculate hours and remaining minutes
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    // Return formatted string
+    return `${hours}h${remainingMinutes.toString().padStart(2, '0')}m`;
+  }
+  const formatPrice = (price : any) => {
+    const formattedPrice = new Intl.NumberFormat('vi-VN').format(price);
+    return `${formattedPrice}đ`;
+  };
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleString('en-GB', { month: 'short' });
+    return `${day} ${month}`;
+};
+
+console.log(data)
+const handleChooseFly = (index) => {
+  // Find the item with the matching index
+  const selectedItem = data.find(item => item.index === index);
+  if (selectedItem) {
+    console.log("item select:", selectedItem);
+  }
+}
+
 
   return (
     <div className="it">
@@ -19,17 +52,17 @@ export default function Item() {
           <div className="mid">
             <div className="plist-right-time">
               <div className="left">
-                <p className="txt fw-6">21:40</p>
-                <span className="tag fw-6">DAD</span>
+                <p className="txt fw-6">{timeStart.split('T')[1].substring(0, 5)}</p>
+                <span className="tag fw-6">{fly?.RelatedFlights?.[0]?.StartPoint}</span>
               </div>
               <div className="mid">
-                <p className="txt">1h 30m</p>
+                <p className="txt">{formatDuration(duration)}</p>
                 <div className="mid-line"></div>
                 <p className="txt">Direct</p>
               </div>
               <div className="right">
-                <p className="txt fw-6">23:10</p>
-                <span className="tag fw-6">DAD</span>
+                <p className="txt fw-6">{timeEnd.split('T')[1].substring(0, 5)}</p>
+                <span className="tag fw-6">{fly?.RelatedFlights?.[0]?.EndPoint}</span>
               </div>
             </div>
             <div className="mid-box">
@@ -38,8 +71,8 @@ export default function Item() {
                   <img src="icon1.svg" alt="" />
                 </span>
                 <p className="txt">
-                  Baggage
-                  <span className="fw-6 c-pri"> 20kg</span>
+                  Baggage 
+                  <span className="fw-6 c-pri"> {fly?.Freebag}</span>
                 </p>
               </div>
               <div className="item">
@@ -54,11 +87,11 @@ export default function Item() {
             </div>
             <div className="mid-box mid-box-last">
               <p className="txt ">1,326,000 vnd</p>
-              <p className="c-red fw-6">1,322,000 vnd</p>
+              <p className="c-red fw-6">{formatPrice(fly?.PriceAdult)}</p>
             </div>
           </div>
           <div className="right">
-            <button className="btn btn-sec">
+            <button className="btn btn-sec" onClick={()=>handleChooseFly(index)}>
               <span className="text">Choose</span>
             </button>
           </div>
@@ -87,25 +120,25 @@ export default function Item() {
                       <div className="col-left">
                         <div className="col-left-line"></div>
                         <div className="desc">
-                          <p className="txt fw-6">21:40</p>
-                          <p className="txt">11 Feb</p>
+                          <p className="txt fw-6">{timeStart.split('T')[1].substring(0, 5)}</p>
+                          <p className="txt">{formatDate(timeStart)}</p>
                         </div>
                         <div className="desc">
-                          <p className="txt">1h 30m</p>
+                          <p className="txt">{formatDuration(duration)}</p>
                         </div>
                         <div className="desc">
-                          <p className="txt fw-6">21:40</p>
-                          <p className="txt">11 Feb</p>
+                          <p className="txt fw-6">{timeEnd.split('T')[1].substring(0, 5)}</p>
+                          <p className="txt">{formatDate(timeEnd)}</p>
                         </div>
                       </div>
                       <div className="col-right">
                         <div className="desc">
-                          <p className="txt fw-6">Da nang (DAD)</p>
-                          <p className="txt">Da Nang Airport</p>
+                          <p className="txt fw-6">{fly?.RelatedFlights?.[0]?.StartPoint}</p>
+                          {/* <p className="txt">Da Nang Airport</p> */}
                         </div>
                         <div className="desc">
-                          <p className="txt fw-6">Ho Chi Minh City (SGN)</p>
-                          <p className="txt">Tansonnhat Intl</p>
+                          <p className="txt fw-6">{fly?.RelatedFlights?.[0]?.EndPoint}</p>
+                          {/* <p className="txt">Tansonnhat Intl</p> */}
                         </div>
                       </div>
                     </div>
@@ -116,13 +149,13 @@ export default function Item() {
                             </span>
                             <div className="desc">
                                 <p className="txt fw-6">Bamboo Airways</p>
-                                <p className="txt">QH-183 - Economy</p>
+                                <p className="txt">{fly?.RelatedFlights?.[0]?.FlightNumber} - {fly?.RelatedFlights?.[0]?.SeatClass}</p>
                             </div>
                         </div>
                         <div className="it-tab-box">
                             <div className="col">
-                                <p className="txt">Baggage
-                                    <span className="c-pri fw-6">20kg</span>   
+                                <p className="txt">Baggage 
+                                    <span className="c-pri fw-6">{fly?.Freebag}</span>   
                                 </p>
                             </div>
                             <div className="col">
@@ -165,19 +198,19 @@ export default function Item() {
                                 </span>
                                 <div className="desc">
                                     <p className="txt fw-6">Bamboo Airways</p>
-                                    <p className="txt">QH-183 - Economy</p>
+                                    <p className="txt">{fly?.RelatedFlights?.[0]?.FlightNumber} - {fly?.RelatedFlights?.[0]?.SeatClass}</p>
                                 </div>
                             </div>
                             <div className="plist-right-time">
                                 <div className="left">
-                                    <p className="txt fw-6">Da Nang</p>
-                                    <span className="c-pri">Economy</span>
+                                    <p className="txt fw-6">{fly?.RelatedFlights?.[0]?.StartPoint}</p>
+                                    <span className="c-pri">{fly?.RelatedFlights?.[0]?.SeatClass}</span>
                                 </div>
                                 <div className="mid">
                                     <div className="mid-line"></div>
                                 </div>
                                 <div className="right">
-                                    <p className="txt fw-6">Ho Chi Minh City</p>
+                                    <p className="txt fw-6">{fly?.RelatedFlights?.[0]?.EndPoint}</p>
                                 </div>
                             </div>
                             <p className="sub-txt">Non - Refundable</p>
