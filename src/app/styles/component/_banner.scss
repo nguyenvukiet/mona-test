@@ -1,0 +1,26 @@
+.bn {
+    &-wrap {
+        position: relative;
+    }
+    &-img {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    &-ctn {
+        min-height: calc(750 / 1728 * 100vw);
+        padding: 8rem 0;
+        display: flex;
+        align-items: center;
+    }
+    &-title {
+        @include fz-64;
+        line-height: 1.2;
+        font-weight: 400;
+    }
+}

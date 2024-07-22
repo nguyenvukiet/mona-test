@@ -1,0 +1,26 @@
+
+// core ----
+@import "./core/reset";
+@import "./core/mixin";
+@import "./core/base";
+@import "./core/variable";
+@import "./core/font";
+
+
+// component
+@import "./component/btn";
+@import "./component/banner";
+
+
+
+//page
+@import './pages/home';
+@import './pages/list';
+
+
+
+@import './header.scss';
+@import './footer.scss';
+@import './spt.scss';
+
+

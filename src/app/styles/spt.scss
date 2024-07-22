@@ -1,0 +1,65 @@
+.c-pri {
+    color: $color-pri;
+}
+.c-black {
+    color: #000;
+}
+.c-grey {
+    color: rgb(131, 131, 131);
+}
+.c-red {
+    color: rgba(240, 99, 54, 1);
+}
+.fw-5 {
+    font-weight: 500;
+}
+.fw-6 {
+    font-weight: 600;
+}
+.fw-7 {
+    font-weight: 700;
+}
+.t24 {
+    @include fz-24;
+}
+.t-up {
+    text-transform: uppercase;
+}
+.box-input {
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 10rem;
+    background:#F4F2F9;
+    position: relative;
+    display: inline-block;
+    &:before {
+        inset: 0.6rem;
+        background:#fff;
+        border-radius: 10rem;
+        position: absolute;
+        content: '';
+        opacity: 0;
+        transition:.3s ease
+    }
+}
+input:checked ~ .box-input {
+    background: $color-pri;
+    &:before {
+        opacity: 1;
+    }
+}
+.select-custom {
+    appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 10px 30px 10px 10px; /* Add some padding to accommodate the arrow */
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 1.2rem;
+  background-color: #fff;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5H7z" fill="%23333"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  font-weight: 600;
+}
